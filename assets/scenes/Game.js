@@ -58,7 +58,7 @@ export default class  extends Phaser.Scene {
     update() {
 
       if (this.cursors.left.isDown){
-        this.ninja.setVelocityX(PLAYER_MOVEMENTS.x);
+        this.ninja.setVelocityX(-PLAYER_MOVEMENTS.x);
       } else if  (this.cursors.right.isDown) {
         this.ninja.setVelocityX(PLAYER_MOVEMENTS.x);
       } else {this.ninja.setVelocityX(0);
@@ -66,7 +66,7 @@ export default class  extends Phaser.Scene {
       
 
       if (this.cursors.up.isDown && this.ninja.body.touching.down) {
-         this.ninja.setVelocityY(PLAYER_MOVEMENTS.y);
+         this.ninja.setVelocityY(-PLAYER_MOVEMENTS.y);
       }
     
     }
