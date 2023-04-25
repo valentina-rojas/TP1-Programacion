@@ -1,4 +1,4 @@
-import {PLAYER_MOVEMENTS} from "../utis.js";
+import {PLAYER_MOVEMENTS, SHAPE_DELAY, SHAPES, TRIANGULO, CUADRADO, ROMBO} from "../utis.js";
 
 export default class  extends Phaser.Scene {
 
@@ -20,7 +20,10 @@ export default class  extends Phaser.Scene {
         this.load.image("sky", "./assets/images/Cielo.png");
         this.load.image("platform", "./assets/images/platform.png");
         this.load.image("ninja", "./assets/images/Ninja.png");
-        this.load.image("triangle", "./assets/images/Triangulo.png");
+        this.load.image(TRIANGULO, "./assets/images/Triangulo.png");
+        this.load.image(ROMBO, "./assets/images/Rombo.png");
+        this.load.image(CUADRADO, "./assets/images/Cuadrado.png")
+
 
        
      
@@ -41,7 +44,7 @@ export default class  extends Phaser.Scene {
 
 
         this.shapeGroup = this.physics.add.group();
-        this.shapeGroup.create(100, 0, "triangle");
+        
 
 
         this.physics.add.collider (this.ninja, this.plataformasPropias);
@@ -53,6 +56,14 @@ export default class  extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
 
+
+        this.time.addEvent ({
+          delay: SHAPE_DELAY,
+          callback: this.addShape,
+          callbackScope: this,
+          loop: true,
+
+        });
     }
   
     update() {
@@ -79,6 +90,23 @@ export default class  extends Phaser.Scene {
 
 
     }
+
+
+
+    addShape () {
+   
+      const randomShape = Phaser.Math.RND.pick(SHAPES);
+
+      const randomX = Phaser.Math.Between(0, 800);
+
+      this.shapeGroup.create(randomX, 0, randomShape);
+
+      console.log("shape is added", randomX, randomShape);
+
+    }
+
+
+   
 
   }
   
