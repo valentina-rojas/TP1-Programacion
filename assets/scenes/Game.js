@@ -1,3 +1,5 @@
+import {PLAYER_MOVEMENTS} from "../utis.js";
+
 export default class  extends Phaser.Scene {
 
 
@@ -34,31 +36,38 @@ export default class  extends Phaser.Scene {
 
 
         this.plataformasPropias = this.physics.add.staticGroup();
-        this.plataformasPropias
-        .create (400, 568, "platform")
-        .setScale(2)
-        .refreshBody();
+        this.plataformasPropias.create (400, 568, "platform").setScale(2).refreshBody();
 
 
 
         this.shapeGroup = this.physics.add.group();
         this.shapeGroup.create(100, 0, "triangle");
 
+
         this.physics.add.collider (this.ninja, this.plataformasPropias);
         this.physics.add.collider (this.shapeGroup, this.plataformasPropias);
         
-        this.physics.add.overlap(
-            this.ninja, 
-            this.shapeGroup, 
-            this.collectShape,
-            null, 
-            this
-        );
+        this.physics.add.overlap(this.ninja, this.shapeGroup, this.collectShape, null,  this );
+
+
+        this.cursors = this.input.keyboard.createCursorKeys();
 
 
     }
   
     update() {
+
+      if (this.cursors.left.isDown){
+        this.ninja.setVelocityX(PLAYER_MOVEMENTS.x);
+      } else if  (this.cursors.right.isDown) {
+        this.ninja.setVelocityX(PLAYER_MOVEMENTS.x);
+      } else {this.ninja.setVelocityX(0);
+      }
+      
+
+      if (this.cursors.up.isDown && this.ninja.body.touching.down) {
+         this.ninja.setVelocityY(PLAYER_MOVEMENTS.y);
+      }
     
     }
 
