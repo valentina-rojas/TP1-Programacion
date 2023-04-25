@@ -8,11 +8,11 @@ export default class  extends Phaser.Scene {
     }
   
     init() {
-        let shapesRecolected = [
-        { type: "Triangulo", count: 0},
-        { type: "Cuadrado", count: 0},
-        { type: "Rombo", count: 0}, 
-      ];
+        this.shapesRecolected = { 
+        "triangulo": {count: 0, score: 10},
+        "cuadrado": {count: 0, score: 20},
+        "rombo": {count: 0}, score: 30,
+      };
     }
   
 
@@ -44,7 +44,7 @@ export default class  extends Phaser.Scene {
 
 
         this.shapeGroup = this.physics.add.group();
-        
+  
 
 
         this.physics.add.collider (this.ninja, this.plataformasPropias);
@@ -89,6 +89,13 @@ export default class  extends Phaser.Scene {
         shape.disableBody(true, true);
 
 
+        const shapeName = shape.texture.key;
+        this.shapesRecolected[shapeName].count++;
+
+        console.log(this.shapesRecolected);
+
+
+        
     }
 
 
