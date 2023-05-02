@@ -22,6 +22,7 @@ export default class extends Phaser.Scene {
 
     this.isWinner = false;
     this.isGameOver = false;
+    this.timer = 30;
   }
 
   preload() {
@@ -65,7 +66,15 @@ export default class extends Phaser.Scene {
       loop: true,
     });
 
+    this.time.addEvent({
+      delay: 1000,
+      callback: this.timerDown,
+      callbackScope: this,
+      loop: true,
+    });
+
     // texto en pantalla
+    this.timerText = this.add.text(16, 50, this.timer);
 
     this.scoreText = this.add.text(16, 16, "T: O / C: 0 / R: 0", {
       fontSize: "20px",
@@ -128,6 +137,10 @@ export default class extends Phaser.Scene {
     ) {
       this.isWinner = true;
     }
+
+    if (this.timer) {
+      this.isGameOver = true;
+    }
   }
 
   addShape() {
@@ -138,5 +151,11 @@ export default class extends Phaser.Scene {
     this.shapeGroup.create(randomX, 0, randomShape);
 
     console.log("shape is added", randomX, randomShape);
+  }
+
+  timerDown() {
+    this.timer = this.timer - 1;
+
+    console.log(this.timer);
   }
 }
