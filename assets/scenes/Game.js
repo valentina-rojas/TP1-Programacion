@@ -13,6 +13,13 @@ export default class  extends Phaser.Scene {
         "cuadrado": {count: 0, score: 20},
         "rombo": {count: 0}, score: 30,
       };
+
+      this.isWinner = false;
+      this.isGameOver = false;
+
+      this.timer = 30;
+
+      
     }
   
 
@@ -64,9 +71,31 @@ export default class  extends Phaser.Scene {
           loop: true,
 
         });
+
+        this.time.addEvent({
+          delay: 1000,
+          callback: this.timerDown,
+          callbackScope: this,
+          loop: true,
+        });
+    
+
+        this.scoreText = this.add.text(16, 16, "T: 0 / C: 0 / R: 0", {
+          fontSize: "20px",
+          fill: "#1af",
+        });
     }
   
     update() {
+
+      if (this.isWinner) {
+        this.scene.start("Winner");
+      }
+  
+      if (this.isGameOver) {
+        this.scene.start("GameOver");
+      }
+  
 
       if (this.cursors.left.isDown){
         this.player.setVelocityX(-PLAYER_MOVEMENTS.x);
@@ -80,6 +109,15 @@ export default class  extends Phaser.Scene {
          this.player.setVelocityY(-PLAYER_MOVEMENTS.y);
       }
     
+
+
+      if (
+        this.shapesRecolected[TRIANGULO].count >= 2 &&
+        this.shapesRecolected[CUADRADO].count >= 2 &&
+        this.shapesRecolected[ROMBO].count >= 2
+      ) {
+        this.isWinner = true;
+      }
     }
 
 
@@ -93,7 +131,14 @@ export default class  extends Phaser.Scene {
         this.shapesRecolected[shapeName].count++;
 
         console.log(this.shapesRecolected);
-
+        this.scoreText.setText(
+          "T: " +
+            this.shapesRecolected[TRIANGULO].count +
+            "/ C " +
+            this.shapesRecolected[CUADRADO].count +
+            "/ R " +
+            this.shapesRecolected[ROMBO].count
+        );
 
         
     }
@@ -112,7 +157,11 @@ export default class  extends Phaser.Scene {
 
     }
 
-
+    timerDown() {
+      this.timer = this.timer - 1;
+  
+      console.log(this.timer);
+    }
    
 
   }
