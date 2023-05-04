@@ -1,4 +1,4 @@
-import {PLAYER_MOVEMENTS, SHAPE_DELAY, SHAPES, TRIANGULO, CUADRADO, ROMBO} from "../utis.js";
+import {PLAYER_MOVEMENTS, SHAPE_DELAY, SHAPES, TRIANGULO, CUADRADO, ROMBO, CIRCULO} from "../utis.js";
 
 export default class  extends Phaser.Scene {
 
@@ -10,14 +10,17 @@ export default class  extends Phaser.Scene {
     init() {
         this.shapesRecolected = { 
         "triangulo": {count: 0, score: 10},
-        "cuadrado": {count: 0, score: 20},
-        "rombo": {count: 0}, score: 30,
-      };
+        "cuadrado": {count: 0, score: 15},
+        "rombo": {count: 0, score: 20},
+        "circulo": {count: 0, score: -10}
+        };
 
       this.isWinner = false;
       this.isGameOver = false;
 
       this.timer = 30;
+
+      this.score = 0;
 
       
     }
@@ -30,6 +33,7 @@ export default class  extends Phaser.Scene {
         this.load.image(TRIANGULO, "./assets/images/Triangulo.png");
         this.load.image(ROMBO, "./assets/images/Rombo.png");
         this.load.image(CUADRADO, "./assets/images/Cuadrado.png")
+        this.load.image(CIRCULO, "./assets/images/circulo.png")
 
 
        
@@ -47,6 +51,7 @@ export default class  extends Phaser.Scene {
 
         this.plataformasPropias = this.physics.add.staticGroup();
         this.plataformasPropias.create (400, 568, "platform").setScale(2).refreshBody();
+
 
 
 
@@ -90,6 +95,11 @@ export default class  extends Phaser.Scene {
           fontSize: "20px",
           fill: "#1af",
         });
+
+        this.pointsText = this.add.text(16, 70, "Puntaje: " + this.score, {
+          fontSize: "20px",
+          fill: "#1af",
+        });
     }
   
     update() {
@@ -116,7 +126,7 @@ export default class  extends Phaser.Scene {
       }
     
 
-
+//condicion ganar si se recolectan 2 d ecada figura
       if (
         this.shapesRecolected[TRIANGULO].count >= 2 &&
         this.shapesRecolected[CUADRADO].count >= 2 &&
@@ -125,6 +135,13 @@ export default class  extends Phaser.Scene {
         this.isWinner = true;
       }
 
+
+      // condicion ganar si supera 100 puntos
+      if (this.score >= 100) {
+        this.isWinner = true;
+      }
+
+      //condicion perder si timer llega a 0
       if (this.timer <= 0) {
         this.isGameOver = true;
       }
@@ -152,8 +169,12 @@ export default class  extends Phaser.Scene {
             "/ R " +
             this.shapesRecolected[ROMBO].count
         );
-
         
+        const shapeScore = this.shapesRecolected[shapeName].score;
+
+        this.score += shapeScore;
+      
+        this.pointsText.setText("Puntaje: " + this.score);
     }
 
 
@@ -177,7 +198,8 @@ export default class  extends Phaser.Scene {
   
       console.log(this.timer);
     }
-   
+
+
 
   }
   
