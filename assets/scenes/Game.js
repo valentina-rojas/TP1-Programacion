@@ -52,6 +52,12 @@ export default class  extends Phaser.Scene {
         this.plataformasPropias = this.physics.add.staticGroup();
         this.plataformasPropias.create (400, 568, "platform").setScale(2).refreshBody();
 
+        this.plataformasPropias.create (10,400 , "platform")
+        this.plataformasPropias.create (900,220 , "platform")
+        this.plataformasPropias.create (800,400 , "platform")
+        this.plataformasPropias.create (-100,220 , "platform")
+
+
 
 
 
