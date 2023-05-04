@@ -84,6 +84,12 @@ export default class  extends Phaser.Scene {
           fontSize: "20px",
           fill: "#1af",
         });
+
+
+        this.timerText = this.add.text(16, 40, "Tiempo: " + this.timer, {
+          fontSize: "20px",
+          fill: "#1af",
+        });
     }
   
     update() {
@@ -118,6 +124,13 @@ export default class  extends Phaser.Scene {
       ) {
         this.isWinner = true;
       }
+
+      if (this.timer <= 0) {
+        this.isGameOver = true;
+      }
+    
+
+
     }
 
 
@@ -159,6 +172,8 @@ export default class  extends Phaser.Scene {
 
     timerDown() {
       this.timer = this.timer - 1;
+
+      this.timerText.setText("Tiempo: " + this.timer);
   
       console.log(this.timer);
     }
