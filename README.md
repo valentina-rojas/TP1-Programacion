@@ -1,3 +1,3 @@
-# Phaser 3 Template
+# Trabajo Práctico Nº 1 Programación
 
 práctica en clase
