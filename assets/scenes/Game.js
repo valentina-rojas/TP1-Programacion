@@ -54,15 +54,16 @@ export default class extends Phaser.Scene {
       .refreshBody();
 
     this.plataformasPropias.create(10, 400, "platform");
-    //this.plataformasPropias.create(900, 220, "platform");
+ 
     this.plataformasPropias.create(800, 400, "platform");
-    //this.plataformasPropias.create(-100, 220, "platform");
+    
 
     this.shapeGroup = this.physics.add.group();
 
     //colisión objeto y jugador
     this.physics.add.collider(this.player, this.plataformasPropias);
 
+    //colisión objeto y plaatformas
     this.physics.add.collider(this.shapeGroup, this.plataformasPropias);
 
     this.physics.add.overlap(
@@ -120,6 +121,7 @@ export default class extends Phaser.Scene {
   }
 
   update() {
+    
     if (this.isWinner) {
       this.scene.start("Winner");
     }
@@ -128,6 +130,7 @@ export default class extends Phaser.Scene {
       this.scene.start("GameOver");
     }
 
+    // movimiento de personaje
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-PLAYER_MOVEMENTS.x);
     } else if (this.cursors.right.isDown) {
@@ -140,7 +143,7 @@ export default class extends Phaser.Scene {
       this.player.setVelocityY(-PLAYER_MOVEMENTS.y);
     }
 
-    //condicion ganar si se recolectan 2 d ecada figura
+    //condicion ganar si se recolectan 2 de cada figura
     if (
       this.shapesRecolected[TRIANGULO].count >= 2 &&
       this.shapesRecolected[CUADRADO].count >= 2 &&
