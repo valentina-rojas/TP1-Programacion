@@ -10,25 +10,28 @@ export default class extends Phaser.Scene {
   }
 
   create() {
-
-    
+    //imagen de fondo
     this.add.image(400, 300, "sky").setScale(0.555);
-    // Agregar título del juego
+
+    //título del juego
     this.add
-      .text(
-        this.game.config.width / 2,
-        this.game.config.height / 2 - 50,
-        "NINJA MONCHO",
-        {
-          fontFamily: "Arial",
-          fontSize: 48,
-          color: "#ffffff",
-        }
-      )
+      .text(400, 200, "NINJA MONCHO", {
+        fontFamily: "Arial",
+        fontSize: 60,
+        color: "#ffffff",
+        shadow: {
+          offsetX: 3,
+          offsetY: 3,
+          color: "#000000",
+          blur: 5,
+          stroke: false,
+          fill: true,
+        },
+      })
       .setOrigin(0.5);
 
-    // Agregar botón para comenzar el juego
-    const playButton = this.add
+    //botón para empezar el juego
+    const button = this.add
       .text(
         this.game.config.width / 2,
         this.game.config.height / 2 + 50,
@@ -47,10 +50,19 @@ export default class extends Phaser.Scene {
       .setOrigin(0.5)
       .setInteractive();
 
-    // Agregar evento al botón para ir a la escena del juego
+    // cambiar el color de fondo cuando el puntero se coloca sobre el botón
+    button.on("pointerover", () => {
+      button.setStyle({ backgroundColor: "#888888" });
+    });
 
-    playButton.on("pointerup", () => {
-      this.scene.start("Game");
+    // volver al color de fondo cuando el puntero sale del botón
+    button.on("pointerout", () => {
+      button.setStyle({ backgroundColor: "#000000" });
+    });
+
+    // al presionar el boton llevar a la escena de juego
+    button.on("pointerup", () => {
+      this.scene.start("game");
     });
   }
 
